@@ -4,6 +4,7 @@ import com.dmajd.cruddemo.dao.EmployeeDAO;
 import com.dmajd.cruddemo.entity.Employee;
 import com.dmajd.cruddemo.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +27,16 @@ public class EmployeeRestController
     public List<Employee> findAll()
     {
         return employeeService.findAll();
+    }
+
+    @GetMapping("/employees/{employeeId}")
+    public Employee getEmployee(@PathVariable int employeeId)
+    {
+        Employee employee = employeeService.findById(employeeId);
+        if(employee == null)
+        {
+            throw new RuntimeException("Employee id not found - " + employeeId);
+        }
+        return employee;
     }
 }
